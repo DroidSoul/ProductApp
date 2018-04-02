@@ -7,22 +7,22 @@
 
 The following functionality is completed:
 
-* [X ] First screen should contain a List of all the products returned by the service call.
-  uses recyclerview, Async HTTP, Picasso
+* [X] First screen should contain a List of all the products returned by the service call.
+  *used recyclerview, Async HTTP, Picasso
 * [X] The list should support Lazy Loading. When scrolled to the bottom of the list, start lazy loading next page of products and append it to the list.
-   uses pagination, enlesscrolling
+   *used pagination, enlesscrolling
 * [X] When a product is clicked, it should go to the second screen.
-   uses intent to go to the 2nd screen together with information of product lists and position. 
+   *used intent to go to the 2nd screen together with information of product lists and position. 
 * [X] Second screen should display details of the product.
    name, product image, price, rating, reviewcount, in stock info, description
 * [X] We should be able to swipe to next/previous items on this screen.
-   Tried two approaches here:
-   1, detailactivity, uses tablayout/viewpager with three fragments so that user can swip to previous/next.
-   2, (preferred)detailactivity2, uses another horizontal recyclerview with each item occupying whole screen. user can swip to previous/next products and more.
+   *Tried two approaches here:
+   1, detailactivity, used tablayout/viewpager with three fragments so that user can swip to previous/next.
+   2, (preferred)detailactivity2, used another horizontal recyclerview with each item occupying whole screen. user can swip to previous/next products and more.
 * [X] Handling orientation changes efficiently will be a plus.
-    orientation changes destroy activity, thus it will be beneficial to retain recyclerview position by saving/restoring layoutmanager instancestate. detailactivity gets list/position from mainactivity, so no problem there.
+   * orientation changes destroy activity, thus it will be beneficial to retain recyclerview position by saving/restoring layoutmanager instancestate. detailactivity gets list/position from mainactivity, so no problem there.
 * [X] Animation
-    Added Ripple effect for item selection and shared elements transition animation. Lots of things can be done here.
+    *Added Ripple effect for item selection and shared elements transition animation. Lots of things can be done here.
 
 
 ## Video Walkthrough
@@ -40,8 +40,8 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 1, spent a little time on page from zero and it should be from one as mentioned.
-1, took some time to design how to swipe to previous/next. Tried two solutions.
-2, Took some time to figure out how to save recycleview position during orientation change. Neeed to save layoutmanager state or postion directly(onSaveInstantState and onRecoverInstantState), also need to apply it after data ready (after http call and data fetched), not just after the http call(which is async, can be later), otherwise it will always go back to position 0.
+2, took some time to design how to swipe to previous/next. Tried two solutions.
+3, Took some time to figure out how to save recycleview position during orientation change. Neeed to save layoutmanager state or postion directly(onSaveInstantState and onRecoverInstantState), also need to apply it after data ready (after http call and data fetched), not just after the http call(which is async, can be later), otherwise it will always go back to position 0.
 
 
 ## Open-source libraries used
