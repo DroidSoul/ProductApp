@@ -1,8 +1,7 @@
 package com.droidsoul.productapp.activities;
 
-import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.os.Parcelable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -30,33 +29,30 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-import static com.droidsoul.productapp.R.id.ivProductImage;
-import static com.droidsoul.productapp.R.id.rvProducts;
-import static com.droidsoul.productapp.R.id.tvName;
-import static com.droidsoul.productapp.R.id.tvPrice;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Product> products;
     private RecyclerView rvProducts;
     private ProductAdapter productAdapter;
     private LinearLayoutManager linearLayoutManager;
-//    private String SAVED_LAYOUT_MANAGER = "last";
     private String oriURL = "https://walmartlabs-test.appspot.com/_ah/api/walmart/v1/walmartproducts/f6c443b0-25d4-4620-9fa4-1759353f9ed8/";
     final static int pageSize = 30;
     AsyncHttpClient client;
     public final static String LIST_STATE_KEY = "recycler_list_state";
     Parcelable listState;
-    static final String INDEX = "last_index";
-    int lastPos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setupView();
+    }
+
+    private void setupView() {
         client = new AsyncHttpClient();
         products = new ArrayList<>();
-        rvProducts = (RecyclerView)findViewById(R.id.rvProducts);
+        rvProducts = findViewById(R.id.rvProducts);
         productAdapter = new ProductAdapter(this, products);
         productAdapter.setOnItemClickListener(new ProductAdapter.OnItemClickListener() {
             @Override
@@ -70,6 +66,7 @@ public class MainActivity extends AppCompatActivity{
                 Intent i = new Intent(MainActivity.this, DetailActivity2.class);
                 i.putExtra("list", Parcels.wrap(products));
                 i.putExtra("position", position);
+                //shared elements transition animation
                 Pair<View, String> p1 = Pair.create(view.findViewById(R.id.ivProductImage), "profile");
                 Pair<View, String> p2 = Pair.create(view.findViewById(R.id.tvPrice), "price");
                 Pair<View, String> p3 = Pair.create(view.findViewById(R.id.tvName), "name");
@@ -85,22 +82,13 @@ public class MainActivity extends AppCompatActivity{
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rvProducts.addItemDecoration(itemDecoration);
         getDataFromApi(1);
-//        rvProducts.scrollToPosition(15);
     }
-/*
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(SAVED_LAYOUT_MANAGER, rvProducts.getLayoutManager().onSaveInstanceState());
-        return bundle;
-    }
-*/
+
     protected void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
         // Save list state
         listState = linearLayoutManager.onSaveInstanceState();
         state.putParcelable(LIST_STATE_KEY, listState);
-        state.putInt(INDEX, linearLayoutManager.findFirstCompletelyVisibleItemPosition());
     }
 
     protected void onRestoreInstanceState(Bundle state) {
@@ -108,26 +96,15 @@ public class MainActivity extends AppCompatActivity{
         // Retrieve list state and list/item positions
         if(state != null)
             listState = state.getParcelable(LIST_STATE_KEY);
-           lastPos = state.getInt(INDEX);
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        getDataFromApi(1);
-        if (listState != null) {
-            linearLayoutManager.onRestoreInstanceState(listState);
- //           rvProducts.scrollToPosition(lastPos);
-        }
-    }
-    public void getDataFromApi(int page) {
+    private void getDataFromApi(int page) {
 //        RequestParams params = new RequestParams();
 //        params.put("apiKey", api);
 //        params.put("pageNumber", page);
  //       params.put("pageSize", 30);
         String url = oriURL + page + "/" + pageSize;
-//        AsyncHttpClient client = new AsyncHttpClient();
         if (page == 1) {
             rvProducts.clearOnScrollListeners();
             rvProducts.addOnScrollListener(new EndlessRecyclerViewScrollListener(linearLayoutManager) {
@@ -160,6 +137,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             });
         }
+        //load more pages here
         else {
             client.get(url, new JsonHttpResponseHandler() {
                 @Override

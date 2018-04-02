@@ -25,8 +25,7 @@ public class DetailActivity2 extends AppCompatActivity {
     RecyclerView rvDetail;
     DetailAdapter detailAdapter;
     LinearLayoutManager linearLayoutManager;
-    public final static String LIST_STATE_KEY = "recycler_list_state";
-    Parcelable listState;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,28 +43,7 @@ public class DetailActivity2 extends AppCompatActivity {
         rvDetail.setLayoutManager(linearLayoutManager);
         rvDetail.scrollToPosition(position);
     }
-    /*
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        // Save list state
-        listState = linearLayoutManager.onSaveInstanceState();
-        state.putParcelable(LIST_STATE_KEY, listState);
-    }
-
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-        // Retrieve list state and list/item positions
-        if(state != null)
-            listState = state.getParcelable(LIST_STATE_KEY);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (listState != null) {
-            linearLayoutManager.onRestoreInstanceState(listState);
-        }
-    }*/
+    //shared elements transition when back pressed
     @Override
     public void onBackPressed() {
         finishAfterTransition();

@@ -17,8 +17,6 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-import static android.R.attr.category;
-import static android.R.attr.orientation;
 
 /**
  * Created by bear&bear on 4/1/2018.
@@ -85,7 +83,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.ViewHolder
         else {
             Picasso.with(getContext()).load(product.getImagePath()).transform(new RoundedCornersTransformation(10, 10)).into(holder.ivProductImage);
         }*/
-        Picasso.with(getContext()).load(product.getImagePath()).placeholder(R.drawable.large_movie_poster).transform(new RoundedCornersTransformation(10, 10)).into(holder.ivProductImage);
+        Picasso.with(getContext()).load(product.getImagePath()).placeholder(R.drawable.small_poster).transform(new RoundedCornersTransformation(10, 10)).into(holder.ivProductImage);
     }
 
     @Override
